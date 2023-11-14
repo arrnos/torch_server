@@ -23,8 +23,8 @@ onx = convert_sklearn(model, initial_types=initial_type)
 # 将ONNX模型保存到本地文件中，并记录元数据
 model_name = 'iris_svc'
 version = '1.0'
-model_path = f'{model_name}_{version}.pkl'
-onnx_path = f'{model_name}_{version}.onnx'
+model_path = f'data/model/{model_name}_{version}.pkl'
+onnx_path = f'data/model/{model_name}_{version}.onnx'
 joblib.dump(model, model_path)
 onnxmltools.utils.save_model(onx, onnx_path)
 

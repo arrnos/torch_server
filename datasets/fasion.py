@@ -4,6 +4,9 @@ import torchvision
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 from torch.utils.data import DataLoader
+import numpy as np
+import sys
+np.set_printoptions(threshold=sys.maxsize)
 
 
 def get_train_data_loader(batch_size):
@@ -45,6 +48,7 @@ def get_test_data_loader(batch_size):
 
 
 if __name__ == '__main__':
-    test_loader = get_test_data_loader(32)
+    test_loader = get_test_data_loader(2)
     a = next(iter(test_loader))
+    print(a[0].to('cpu').numpy().tolist())
     print(a[0].shape)  # torch.Size([32, 1, 28, 28])
