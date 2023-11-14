@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 def get_train_data_loader(batch_size):
     # Setup training data
     train_data = datasets.FashionMNIST(
-        root="/Users/zhangmeng/PycharmProjects/torch_server/data",  # where to download data to?
+        root="data",  # where to download data to?
         train=True,  # get training data
         download=True,  # download data if it doesn't exist on disk
         transform=ToTensor(),  # images come as PIL format, we want to turn into Torch tensors
@@ -28,7 +28,7 @@ def get_train_data_loader(batch_size):
 def get_test_data_loader(batch_size):
     # Setup testing data
     test_data = datasets.FashionMNIST(
-        root="/Users/zhangmeng/PycharmProjects/torch_server/data",
+        root="data",
         train=False,  # get test data
         download=True,
         transform=ToTensor()
