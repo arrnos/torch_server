@@ -1,0 +1,16 @@
+###
+POST http://127.0.0.1:5000/model1/predict
+Content-Type: application/json
+
+{
+  "id": 1
+}
+
+
+###
+POST http://127.0.0.1:5000/predict
+Content-Type: application/json
+
+{
+  "features": [[0.23,4.56]]
+}

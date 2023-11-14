@@ -1,0 +1,17 @@
+/data
+
+venv/
+*.egg-info/
+**/__pycache__/
+*.pyc
+.pyo
+*.log
+*.pot
+*.mo
+coverage.xml
+.tox/
+nox/
+dist/
+build/
+htmlcov/
+.idea/
