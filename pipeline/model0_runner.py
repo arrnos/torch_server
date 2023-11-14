@@ -42,16 +42,18 @@ if __name__ == '__main__':
         print(y1)
 
         # 1.全部导出
-        # runner.save("data/model/model2.pt")
-        # runner.load("data/model/model2.pt")
+        runner.save("data/model/model0_all.pt")
+        runner.load("data/model/model0_all.pt")
+        runner.eval()
 
         # 2.仅导出变量
-        # runner.save("data/model/model0_state.pt", only_state=True)
-        # runner.load("data/model/model0_state.pt",
-        #             model=FashionMNISTModelV0(input_shape=784,  # one for every pixel (28x28)
-        #                                       hidden_units=10,  # how many units in the hiden layer
-        #                                       output_shape=10  # one for every class
-        #                                       ))
+        runner.save("data/model/model0_state.pt", only_state=True)
+        runner.load("data/model/model0_state.pt",
+                    model=FashionMNISTModelV0(input_shape=784,  # one for every pixel (28x28)
+                                              hidden_units=10,  # how many units in the hiden layer
+                                              output_shape=10  # one for every class
+                                              ))
+        runner.eval()
 
         # 3.导出onnx
         runner.export_to_onnx("data/model/model0.onnx", input_shape=(1, 28, 28))
@@ -61,3 +63,5 @@ if __name__ == '__main__':
         # print(abs(y_pred1-y_pred2))
         print(abs((torch.Tensor(y_pred1) - torch.Tensor(y_pred2))).sum())
         print(accuracy_fn(torch.Tensor(y1), torch.Tensor(y2)))
+        runner.eval()
+

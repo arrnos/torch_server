@@ -88,9 +88,10 @@ class Runner(object):
 
         train_time_end_on_cpu = timer()
         total_time = train_time_end_on_cpu - train_time_start_on_cpu
-        print(f"Train time on cup: {total_time:.3f} seconds")
+        print(f"Train time on {self.device}: {total_time:.3f} seconds")
 
     def predict(self, inputs):
+        inputs = inputs.to(self.device)
         predict = self.model(inputs)
         return predict
 
@@ -107,6 +108,7 @@ class Runner(object):
             (dict): Results of model making predictions on data_loader.
         """
         loss, acc = 0, 0
+        self.model = self.model.to(self.device)
         self.model.eval()
         # 加载验证数据
         if self.test_data_loader is None:
@@ -114,6 +116,8 @@ class Runner(object):
 
         with torch.inference_mode():
             for X, y in self.test_data_loader:
+                X = X.to(self.device)
+                y = y.to(self.device)
                 # Make predictions with the model
                 y_pred = self.model(X)
 
@@ -137,12 +141,13 @@ class Runner(object):
         # 加载模型结构和状态参数
         if model is None:
             print("load whole model..")
-            self.model = torch.load(path)
+            self.model = torch.load(path).to(self.device)
         # 新建模型结构、仅加载状态参数
         else:
             print("only load state dict..")
             self.model = model
             self.model.load_state_dict(torch.load(path))
+            self.model.to(self.device)
         return self.model
 
     def save(self, path, only_state=False):
@@ -162,7 +167,7 @@ class Runner(object):
         output_names = ["output"]
 
         torch.onnx.export(
-            self.model,
+            self.model.to('cpu'),
             input_args,
             path,
             verbose=False,
