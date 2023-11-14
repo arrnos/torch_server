@@ -8,7 +8,7 @@ from utils.helper_functions import accuracy_fn
 
 # 配置
 batch_size = 32
-device = 'cpu'
+device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 epochs = 1
 
 

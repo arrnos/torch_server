@@ -20,7 +20,7 @@ class Runner(object):
         self.epochs = epochs
         self.batch_size = batch_size
         self.device = device
-        self.loss_fn = loss_fn
+        self.loss_fn = loss_fn.to(device)
         self.eval_fn = eval_fn
         self.optimizer = optimizer
 
@@ -33,6 +33,7 @@ class Runner(object):
     def train(self):
         # Set the seed and start the timer
         train_time_start_on_cpu = timer()
+        self.model = self.model.to(self.device)
 
         # 构建data_loader
         self.train_data_loader = self.get_train_data_loader(self.batch_size)
@@ -46,6 +47,8 @@ class Runner(object):
             # Add a loop to loop through training batches
             for batch, (X, y) in enumerate(self.train_data_loader):
                 self.model.train()
+                X = X.to(self.device)
+                y = y.to(self.device)
 
                 y_pred = self.model(X)
                 loss = self.loss_fn(y_pred, y)
@@ -68,6 +71,8 @@ class Runner(object):
             self.model.eval()
             with torch.inference_mode():
                 for X, y in self.test_data_loader:
+                    X = X.to(self.device)
+                    y = y.to(self.device)
                     # 1. Forward pass
                     test_pred = self.model(X)
 
