@@ -35,9 +35,9 @@ if __name__ == '__main__':
     runner.train()
     it = iter(runner.test_data_loader)
     for i in range(20):
-        inputs = next(it)[0]
+        inputs = next(it)[0].to(device)
 
-        y_pred1 = runner.predict(inputs).detach().numpy()
+        y_pred1 = runner.predict(inputs)
         y1 = y_pred1.argmax(axis=1)[:10]
         print(y1)
 
@@ -57,11 +57,13 @@ if __name__ == '__main__':
 
         # 3.导出onnx
         runner.export_to_onnx("data/model/model0.onnx", input_shape=(1, 28, 28))
-        y_pred2 = runner.predict_from_onnx("data/model/model0.onnx", inputs.numpy())
+        y_pred2 = runner.predict_from_onnx("data/model/model0.onnx", inputs.to('cpu').numpy())
         y2 = y_pred2.argmax(axis=1)[:10]
         print(y2)
         # print(abs(y_pred1-y_pred2))
-        print(abs((torch.Tensor(y_pred1) - torch.Tensor(y_pred2))).sum())
-        print(accuracy_fn(torch.Tensor(y1), torch.Tensor(y2)))
+        #print(abs(torch.Tensor(y_pred1).to(device) - torch.Tensor(y_pred2).to(device)).sum())
+        #print(accuracy_fn(torch.Tensor(y1).to(device), torch.Tensor(y2).to(device)))
+        #y1 = torch.Tensor(y1).to(device)
+        #y2 = torch.Tensor(y2).to(device)
+        #print(y1,y2)
         runner.eval()
-
