@@ -48,7 +48,7 @@ def get_test_data_loader(batch_size):
 
 
 if __name__ == '__main__':
-    test_loader = get_test_data_loader(2)
+    test_loader = get_test_data_loader(1)
     a = next(iter(test_loader))
     print(a[0].to('cpu').numpy().tolist())
     print(a[0].shape)  # torch.Size([32, 1, 28, 28])
